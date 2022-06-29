@@ -7,13 +7,14 @@ export default new Vuex.Store({
   state: {
     todos: [],
     idCounter: 0,
+    selected: "all",
   },
   getters: {
-    getTask: (state) => (value?: any) => {
+    getTasks: (state) => {
       let result: any = state.todos || [];
       if (state.todos.length) {
-        if (value && value !== "all") {
-          let checkValue = value === "yes" ? true : false;
+        if (state.selected !== "all") {
+          let checkValue = state.selected == "completed" ? true : false;
           result = state.todos.filter(
             (element: any) => element.completed === checkValue
           );
@@ -22,15 +23,20 @@ export default new Vuex.Store({
       }
       return result;
     },
-
     getAll: (state) => state.todos,
+    getSelected: (state) => state.selected,
   },
   mutations: {
     setTodos(state, payload) {
+      console.log("payload", payload)
       state.todos = payload;
     },
     counterIncrement(state) {
       state.idCounter++;
+    },
+    setSelected(state, payload) {
+      console.log("mutation selected")
+      state.selected = payload;
     },
   },
   actions: {
@@ -72,6 +78,11 @@ export default new Vuex.Store({
     deleteCompleted({ commit, state }) {
       let tempTodos = state.todos.filter((element: any) => !element.completed);
       commit("setTodos", tempTodos);
+    },
+
+    changeSelected({ commit }, value) {
+      console.log('action selected')
+      commit("setSelected", value);
     },
   },
   modules: {},

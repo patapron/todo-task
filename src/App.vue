@@ -1,35 +1,35 @@
 <template>
   <section class="todoapp">
     <TodoHeader :list="getAll" @createTaskEmit="createTaskFn"></TodoHeader>
-    <TodoMain
+    <router-view
       v-if="getAll.length > 0"
-      :list="showArr"
+      :list="getTasks"
+      :selected="getSelected"
       @deleteTaskEmit="deleteTaskFn"
-    ></TodoMain>
+    />
     <TodoFooter
       v-if="getAll.length > 0"
-      :list="showArr"
-      @changeType="typeFn"
+      :list="getTasks"
+      @changeSelectedEmit="changeSelectedFn"
       @deleteCompletedTasksEmit="deleteCompletedTasksFn"
+      @changeTaskEmit="changeTaskFn"
     ></TodoFooter>
   </section>
 </template>
 
 <script>
 import "./styles/index.css";
+import router from "./router";
 
 import TodoHeader from "@/components/TodoHeader";
-import TodoMain from "@/components/TodoMain";
+
 import TodoFooter from "@/components/TodoFooter";
 
 import { mapActions, mapGetters } from "vuex";
-// import store from '../store/store';
-// import * as type from '../store/mutationTypes/types';
 
 export default {
   components: {
     TodoHeader,
-    TodoMain,
     TodoFooter,
   },
   created() {
@@ -37,17 +37,28 @@ export default {
     this.getTodos();
   },
   data() {
-    return {
-      getSel: "all",
-    };
+    return {};
   },
   methods: {
-    ...mapActions(["getTodos", "addTodo", "deleteTodo","deleteCompleted"]),
+    ...mapActions([
+      "getTodos",
+      "addTodo",
+      "deleteTodo",
+      "deleteCompleted",
+      "changeSelected",
+      "changeTodo",
+    ]),
     /**
      * change route function
      */
-    typeFn(str) {
-      this.getSel = str;
+    changeSelectedFn(value) {
+      this.changeSelected(value);
+      router.push({
+        path: value,
+      });
+    },
+    changeTaskFn(task) {
+      this.changeTodo(task);
     },
     /**
      * create new task function
@@ -61,7 +72,7 @@ export default {
      */
 
     deleteCompletedTasksFn() {
-      console.log("deletecompleted")
+      console.log("deletecompleted");
       this.deleteCompleted();
     },
     /**
@@ -72,15 +83,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getTask", "getAll"]),
-    /**
-     * filter task array by route
-     */
-    showArr() {
-      let result = this.getTask(this.getSel);
-      console.log("lista: ", result);
-      return result;
-    },
+    ...mapGetters(["getTasks", "getAll", "getSelected"]),
   },
 };
 </script>

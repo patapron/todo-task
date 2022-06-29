@@ -1,50 +1,80 @@
 <template>
   <footer class="footer">
     <span class="todo-count"
-      ><strong>{{ count }}</strong><span v-if="count == 1"> item left</span><span v-else> items left</span></span
+      ><strong>{{ count }}</strong
+      ><span v-if="count == 1"> item left</span
+      ><span v-else> items left</span></span
     >
-    <ul class="filters" @click="fn">
+    <ul class="filters">
       <li>
+        <!-- <a href="all" :class="{ selected: selected == 'all' }">All</a>
+         -->
+        <a href="javascript:;"
+          :class="{ selected: selected == 'all' }"
+          @click="changeSelected('all')"
+          >All</a
+        >
+      </li>
+      <li>
+        <!-- <a href="active" :class="{ selected: selected == 'no' }"
+          >Active</a
+        > -->
+        <a href="javascript:;"
+          :class="{ selected: selected == 'active' }"
+          @click="changeSelected('active')"
+          >Active</a
+        >
+      </li>
+      <li>
+        <!-- <a href="completed" :class="{ selected: selected == 'yes' }">Completed</a> -->
+        <a href="javascript:;"
+          :class="{ selected: selected == 'completed' }"
+          @click="changeSelected('completed')"
+          >Completed</a
+        >
+      </li>
+    </ul>
+    <button class="clear-completed" @click="deleteCompletedTasks">
+      Clear completed
+    </button>
+  </footer>
+</template>
+
+<!-- <li>
         <a
-          :class="{ selected: isSel === 'all' }"
+          :class="{ selected: selected === 'all' }"
           href="javascript:;"
-          @click="isSel = 'all'"
+          @click="selected = 'all'"
           >All</a
         >
       </li>
       <li>
         <a
-          :class="{ selected: isSel === 'no' }"
+          :class="{ selected: selected === 'no' }"
           href="javascript:;"
-          @click="isSel = 'no'"
+          @click="selected = 'no'"
           >Active</a
         >
       </li>
       <li>
         <a
-          :class="{ selected: isSel === 'yes' }"
+          :class="{ selected: selected === 'yes' }"
           href="javascript:;"
-          @click="isSel = 'yes'"
+          @click="selected = 'yes'"
           >Completed</a
         >
-      </li>
-    </ul>
-    <button class="clear-completed" @click="deleteCompletedTasks">Clear completed</button>
-  </footer>
-</template>
+      </li> -->
 
 <script>
 export default {
-  props: ["list"],
+  props: ["list", "selected"],
   computed: {
     count() {
-      return this.list.length;
+      return this.list ? this.list.length : 0;
     },
   },
   data() {
-    return {
-      isSel: "all",
-    };
+    return {};
   },
   methods: {
     /**
@@ -56,8 +86,8 @@ export default {
     /**
      * Chante route emit
      */
-    fn() {
-      this.$emit("changeType", this.isSel);
+    changeSelected(value) {
+      this.$emit("changeSelectedEmit", value);
     },
   },
 };
