@@ -40,11 +40,11 @@ export default {
      */
     isAll: {
       set(checked) {
-        this.list.forEach((obj) => (obj.Completed = checked));
+        this.list.forEach((obj) => (obj.completed = checked));
       },
       get() {
         return (
-          this.list.length !== 0 && this.list.every((obj) => obj.Completed === true)
+          this.list.length !== 0 && this.list.every((obj) => obj.completed === true)
         );
       },
     },

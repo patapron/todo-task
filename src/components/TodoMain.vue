@@ -1,12 +1,12 @@
 <template>
   <ul class="todo-list">
     <li
-      :class="{ completed: obj.Completed }"
+      :class="{ completed: obj.completed }"
       v-for="(obj, index) in list"
       :key="obj.id"
     >
       <div class="view">
-        <input class="toggle" type="checkbox" v-model="obj.Completed" />
+        <input class="toggle" type="checkbox" v-model="obj.completed" />
         <label>{{ obj.name }}</label>
         <button class="destroy" @click="deleteTask(obj.id)"></button>
       </div>
