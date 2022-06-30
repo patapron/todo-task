@@ -1,12 +1,14 @@
-/* eslint-disable prettier/prettier */
-import TodoHeader from "@/components/TodoHeader.vue";
+import TodoMain from "@/views/TodoMain/TodoMain.vue";
 import { shallowMount } from "@vue/test-utils";
 
-describe("TodoHeader", () => {
+describe("TodoMain", () => {
   let wrapper: any;
 
   beforeEach(() => {
-    wrapper = shallowMount(TodoHeader, {
+    wrapper = shallowMount(TodoMain, {
+      propsData: {
+        list: [],
+      },
       mocks: {
         $t: () => "Test text",
         $can: () => true,
@@ -14,7 +16,7 @@ describe("TodoHeader", () => {
     });
   });
 
-  it("renders correctly", () => {
+  test("renders correctly", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 });

@@ -1,3 +1,4 @@
+import { Task } from "@/typings/types";
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -23,23 +24,38 @@ export default new Vuex.Store({
       }
       return result;
     },
+    getActive: (state) => {
+      return state.todos.length > 0
+        ? state.todos.filter((e: any) => !e.completed)
+        : [];
+    },
+    getCompleted: (state) => {
+      return state.todos.length > 0
+        ? state.todos.filter((e: any) => e.completed)
+        : [];
+    },
     getAll: (state) => state.todos,
     getSelected: (state) => state.selected,
   },
   mutations: {
     setTodos(state, payload) {
-      console.log("payload", payload)
       state.todos = payload;
     },
     counterIncrement(state) {
       state.idCounter++;
     },
     setSelected(state, payload) {
-      console.log("mutation selected")
       state.selected = payload;
     },
   },
   actions: {
+    changeToCompleted: ({ commit, state }) => {
+      let tempTodos: any = state.todos.map((element: any) => {
+        element.completed = true;
+        return element;
+      });
+      commit("setTodos", tempTodos);
+    },
     getTodos: (state: any) => {
       const response: any = [
         { id: 100, name: "having dinner", completed: true },
@@ -49,7 +65,7 @@ export default new Vuex.Store({
       state.commit("setTodos", response);
     },
     addTodo({ commit, state }, todo) {
-      let tempTodo: any = [...state.todos];
+      let tempTodo: any = JSON.parse(JSON.stringify(state.todos));
       todo.id = state.idCounter;
       commit("counterIncrement");
       tempTodo.push(todo);
@@ -57,13 +73,12 @@ export default new Vuex.Store({
     },
 
     changeTodo({ commit, state }, todo) {
-      let tempTodos: any = [...state.todos];
-      tempTodos.forEach((element: any) => {
+      let tempTodos: any = state.todos.map((element: any) => {
         if (element.id === todo.id) {
           element.name = todo.name;
           element.completed = todo.completed;
-          return;
         }
+        return element;
       });
       commit("setTodos", tempTodos);
     },
@@ -81,7 +96,6 @@ export default new Vuex.Store({
     },
 
     changeSelected({ commit }, value) {
-      console.log('action selected')
       commit("setSelected", value);
     },
   },

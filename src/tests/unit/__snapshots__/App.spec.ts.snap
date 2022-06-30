@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`app renders correctly 1`] = `
+<section class="todoapp">
+  <todoheader-stub list=""></todoheader-stub>
+  <!---->
+  <!---->
+</section>
+`;

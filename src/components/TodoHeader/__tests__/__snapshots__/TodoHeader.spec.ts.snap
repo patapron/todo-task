@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoHeader renders correctly 1`] = `
+<header class="header">
+  <h1>todos</h1> <input id="toggle-all" type="checkbox" class="toggle-all"> <label for="toggle-all"></label> <input placeholder="New task, press Enter to save" autofocus="autofocus" class="new-todo">
+</header>
+`;

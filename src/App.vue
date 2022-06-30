@@ -1,33 +1,42 @@
 <template>
   <section class="todoapp">
-    <TodoHeader :list="getAll" @createTaskEmit="createTaskFn"></TodoHeader>
+    <TodoHeader
+      :list="getAll"
+      @createTaskEmit="createTaskFn"
+      @changeToCompletedEmit="changeToCompletedFn"
+    ></TodoHeader>
     <router-view
       v-if="getAll.length > 0"
       :list="getTasks"
-      :selected="getSelected"
       @deleteTaskEmit="deleteTaskFn"
+      @changeTaskEmit="changeTaskFn"
     />
     <TodoFooter
       v-if="getAll.length > 0"
-      :list="getTasks"
+      :list="getActive"
+      :listCompleted="getCompleted"
+      :selected="getSelected"
       @changeSelectedEmit="changeSelectedFn"
       @deleteCompletedTasksEmit="deleteCompletedTasksFn"
-      @changeTaskEmit="changeTaskFn"
     ></TodoFooter>
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import "./styles/index.css";
 import router from "./router";
 
-import TodoHeader from "@/components/TodoHeader";
+import TodoHeader from "@/components/TodoHeader/TodoHeader.vue";
 
-import TodoFooter from "@/components/TodoFooter";
+import TodoFooter from "@/components/TodoFooter/TodoFooter.vue";
 
 import { mapActions, mapGetters } from "vuex";
 
-export default {
+import { Task } from "@/typings/types";
+import Vue, { PropType } from "vue";
+import { RawLocation } from "vue-router";
+
+export default Vue.extend({
   components: {
     TodoHeader,
     TodoFooter,
@@ -46,23 +55,24 @@ export default {
       "deleteCompleted",
       "changeSelected",
       "changeTodo",
+      "changeToCompleted",
     ]),
     /**
      * change route function
      */
-    changeSelectedFn(value) {
+    changeSelectedFn(value: String) {
       this.changeSelected(value);
       router.push({
         path: value,
-      });
+      } as RawLocation);
     },
-    changeTaskFn(task) {
+    changeTaskFn(task: Task) {
       this.changeTodo(task);
     },
     /**
      * create new task function
      */
-    createTaskFn(taskName) {
+    createTaskFn(taskName: String) {
       let newTodo = { id: null, name: taskName, completed: false };
       this.addTodo(newTodo);
     },
@@ -76,12 +86,16 @@ export default {
     /**
      * delete task by id function
      */
-    deleteTaskFn(taskId) {
+    deleteTaskFn(taskId: number) {
       this.deleteTodo(taskId);
+    },
+
+    changeToCompletedFn() {
+      this.changeToCompleted();
     },
   },
   computed: {
-    ...mapGetters(["getTasks", "getAll", "getSelected"]),
+    ...mapGetters(["getTasks", "getAll", "getSelected", "getActive","getCompleted"]),
   },
-};
+});
 </script>

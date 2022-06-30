@@ -1,14 +1,12 @@
-import TodoMain from "../TodoMain.vue";
+/* eslint-disable prettier/prettier */
+import TodoFooter from "@/components/TodoFooter/TodoFooter.vue";
 import { shallowMount } from "@vue/test-utils";
 
-describe("TodoMain", () => {
+describe("TodoFooter", () => {
   let wrapper: any;
 
   beforeEach(() => {
-    wrapper = shallowMount(TodoMain, {
-      propsData: {
-        list: [],
-      },
+    wrapper = shallowMount(TodoFooter, {
       mocks: {
         $t: () => "Test text",
         $can: () => true,
@@ -16,7 +14,7 @@ describe("TodoMain", () => {
     });
   });
 
-  test("renders correctly", () => {
+  it("renders correctly", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 });
