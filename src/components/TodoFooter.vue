@@ -7,8 +7,6 @@
     >
     <ul class="filters">
       <li>
-        <!-- <a href="all" :class="{ selected: selected == 'all' }">All</a>
-         -->
         <a href="javascript:;"
           :class="{ selected: selected == 'all' }"
           @click="changeSelected('all')"
@@ -16,9 +14,6 @@
         >
       </li>
       <li>
-        <!-- <a href="active" :class="{ selected: selected == 'no' }"
-          >Active</a
-        > -->
         <a href="javascript:;"
           :class="{ selected: selected == 'active' }"
           @click="changeSelected('active')"
@@ -26,7 +21,6 @@
         >
       </li>
       <li>
-        <!-- <a href="completed" :class="{ selected: selected == 'yes' }">Completed</a> -->
         <a href="javascript:;"
           :class="{ selected: selected == 'completed' }"
           @click="changeSelected('completed')"
@@ -40,33 +34,8 @@
   </footer>
 </template>
 
-<!-- <li>
-        <a
-          :class="{ selected: selected === 'all' }"
-          href="javascript:;"
-          @click="selected = 'all'"
-          >All</a
-        >
-      </li>
-      <li>
-        <a
-          :class="{ selected: selected === 'no' }"
-          href="javascript:;"
-          @click="selected = 'no'"
-          >Active</a
-        >
-      </li>
-      <li>
-        <a
-          :class="{ selected: selected === 'yes' }"
-          href="javascript:;"
-          @click="selected = 'yes'"
-          >Completed</a
-        >
-      </li> -->
-
 <script>
-export default {
+export default class TodoFooter extends Vue {
   props: ["list", "selected"],
   computed: {
     count() {

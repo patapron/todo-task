@@ -33,7 +33,6 @@ export default {
     TodoFooter,
   },
   created() {
-    console.log("created");
     this.getTodos();
   },
   data() {
@@ -72,7 +71,6 @@ export default {
      */
 
     deleteCompletedTasksFn() {
-      console.log("deletecompleted");
       this.deleteCompleted();
     },
     /**

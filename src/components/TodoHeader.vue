@@ -14,7 +14,7 @@
 </template>
 
 <script>
-export default {
+export default class TodoHeader extends Vue {
   props: ["list"],
   data() {
     return {

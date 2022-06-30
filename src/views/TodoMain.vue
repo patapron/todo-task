@@ -31,36 +31,50 @@
     </li>
   </ul>
 </template>
-
 <script>
+
+
 export default {
-  props: ["list"],
+  name: "TodoMain",
+  props: {
+    list: [],
+  },
   data() {
     return {
-      editing: null,
-      backupName: String,
+      editing: any,
+      backupName: '',
     };
   },
   methods: {
-    isEditing(task) {
+    /**
+     * Check if this task arr editing
+     */
+    isEditing:function(task) {
       return this.editing !== null && task === this.editing;
     },
+    /**
+     * Reset editing task name
+     */
     cancelEdit() {
       console.log("cancel");
       if (this.editing) {
         this.editing.name = this.backupName;
       }
-      this.backupName = '';
+      this.backupName = "";
       this.editing = null;
     },
+    /**
+     * Update task name emiter
+     */
     updateName() {
-      console.log("update");
       this.$emit("changeTaskEmit", this.editing);
-      this.backupName = '';
+      this.backupName = "";
       this.editing = null;
     },
+    /**
+     * Set edit object and old copy value
+     */
     editTask(task) {
-      console.log("edittask");
       this.backupName = task.name;
       this.editing = task;
     },
@@ -68,7 +82,6 @@ export default {
      * Delete task by id emit
      */
     deleteTask(taskId) {
-      console.log("delete task");
       this.$emit("deleteTaskEmit", taskId);
     },
   },
