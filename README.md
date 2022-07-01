@@ -22,3 +22,6 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Description
+It is a complete application to manage tasks based on a common exercise for evaluations.
